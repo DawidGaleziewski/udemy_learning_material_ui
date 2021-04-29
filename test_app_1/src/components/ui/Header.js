@@ -4,6 +4,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/styles';
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import logo from '../../assets/logo.svg';
 
 function ElevationScroll(props) {
     const {children, window} = props
@@ -22,7 +25,19 @@ function ElevationScroll(props) {
 
 const useStyles = makeStyles(theme => ({
   toolbarMargin: {
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
+    marginBottom: "3em"
+  },
+  logo: {
+    height: "7em"
+  },
+  tabContainer: {
+    marginLeft: 'auto'
+  },
+  tab: {
+    ...theme.typography.tab,
+    minWidth: 10,
+    marginLeft: "25px"
   }
 }))
 
@@ -33,10 +48,15 @@ export default function Header(props) {
         <ElevationScroll>
             <AppBar position='fixed' color="primary">
                 {/* Toolbar helps stack content vertically */}
-                <Toolbar>
-                  <Typography color="secondary" variant="h3">
-                    Arc development
-                  </Typography>
+                <Toolbar disableGutters>
+                 <img className={classes.logo} alt="company logo" src={logo} />
+                <Tabs className={classes.tabContainer}>
+                  <Tab className={classes.tab} label="Home" />
+                  <Tab className={classes.tab} label="Services" />
+                  <Tab className={classes.tab} label="The Revolution" />
+                  <Tab className={classes.tab} label="About Us" />
+                  <Tab className={classes.tab} label="Contact Us" />
+                </Tabs>
                 </Toolbar>
             </AppBar>
         </ElevationScroll>
