@@ -9,6 +9,8 @@ import Tab from '@material-ui/core/Tab'
 import logo from '../../assets/logo.svg';
 import Button from '@material-ui/core/Button'
 import {Link} from 'react-router-dom'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem';
 
 function ElevationScroll(props) {
     const {children, window} = props
@@ -49,13 +51,19 @@ const useStyles = makeStyles(theme => ({
     height: "45px",
   },
   logoContainer: {
-    padding: 0
+    padding: 0,
+    "&:hover": {
+      backgroundColor: "transparent"
+    }
   }
 }))
 
 export default function Header(props) {
   const classes = useStyles()
   const [value, setValue] = React.useState(0);
+  // soring which item on menu was clicked and when we want menu to be rendered
+  const [anchorElement, setAnchorElement] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
 
   React.useEffect(()=> {
     if(window.location.pathname === "/" && value !== 0){
@@ -75,6 +83,16 @@ export default function Header(props) {
     setValue(value)
   }
 
+  const handleClick = (event) => {
+    setAnchorElement(event.currentTarget);
+    setOpen(true);
+  }
+
+  const handleClose = (event) => {
+    setAnchorElement(null);
+    setOpen(false)
+  }
+
     return (
       <React.Fragment>
         <ElevationScroll>
@@ -90,7 +108,11 @@ export default function Header(props) {
                 >
                   <Tab component={Link}
                   to="/" className={classes.tab} label="Home" />
-                  <Tab className={classes.tab}
+                  <Tab
+                  aria-owns={anchorElement ? "simple-menu" : undefined}
+                  aria-haspopup={anchorElement ? "true" : undefined}
+                  onMouseOver={event => handleClick(event)}
+                  className={classes.tab}
                   component={Link} to="/services" label="Services" />
                   <Tab component={Link} to="/revolution" className={classes.tab} label="The Revolution" />
                   <Tab component={Link} to="/about" className={classes.tab} label="About Us" />
@@ -99,6 +121,20 @@ export default function Header(props) {
                 <Button variant="contained" color="secondary" className={classes.button}>
                   Free&nbsp;Estimate
                 </Button>
+                {/* Menu id must match aria-owns property */}
+                <Menu id="simple-menu" anchorEl={anchorElement} open={open} onClose={handleClose}
+                  MenuListProps={{onMouseLeave: handleClose}}
+                >
+                    <MenuItem onClick={handleClose}>
+                      Custom Software Development
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      Mobile app development
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                     Website development
+                    </MenuItem>
+                </Menu>
                 </Toolbar>
             </AppBar>
         </ElevationScroll>
