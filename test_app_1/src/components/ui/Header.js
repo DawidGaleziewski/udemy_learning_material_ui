@@ -43,6 +43,18 @@ const useStyles = makeStyles(theme => ({
     minWidth: 10,
     marginLeft: "25px"
   },
+  menu: {
+    backgroundColor: theme.palette.common.blue,
+    color: "white",
+    borderRadius: 0
+  },
+  menuItem: {
+    ...theme.typography.tab,
+    opacity: 0.7,
+    "&:hover":{
+      opacity: 1
+    }
+  },
   button: {
     ...theme.typography.estimate,
     borderRadius: "50px",
@@ -122,16 +134,42 @@ export default function Header(props) {
                   Free&nbsp;Estimate
                 </Button>
                 {/* Menu id must match aria-owns property */}
-                <Menu id="simple-menu" anchorEl={anchorElement} open={open} onClose={handleClose}
+                <Menu
+                  elevation={0}
+                 classes={{paper: classes.menu}}
+                 id="simple-menu" anchorEl={anchorElement} open={open} onClose={handleClose}
                   MenuListProps={{onMouseLeave: handleClose}}
                 >
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem
+                     classes={{root: classes.menuItem}}
+                     component={Link} to="/services" onClick={()=> {
+                        handleClose();
+                        setValue(1)
+                      }}>
+                      Services
+                    </MenuItem>
+                    <MenuItem 
+                    classes={{root: classes.menuItem}}
+                    component={Link} to="/customsoftware" onClick={()=> {
+                        handleClose();
+                        setValue(1)
+                      }}>
                       Custom Software Development
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem
+                    classes={{root: classes.menuItem}}
+                    to="/mobileapps" component={Link} onClick={()=> {
+                        handleClose();
+                        setValue(1)
+                      }}>
                       Mobile app development
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem
+                      classes={{root: classes.menuItem}}
+                      to="/websites"component={Link} onClick={()=> {
+                        handleClose();
+                        setValue(1)
+                      }}>
                      Website development
                     </MenuItem>
                 </Menu>
